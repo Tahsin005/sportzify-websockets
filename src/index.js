@@ -3,6 +3,7 @@ import { matchRouter } from './routes/matches.js';
 import { envConfig } from './config/env.js';
 import http from 'http';
 import { attachWebSocketServer } from './ws/server.js';
+import { securityMiddleware } from './arcjet.js';
 
 const PORT = envConfig.PORT || 8000;
 const HOST = envConfig.HOST || '0.0.0.0';
@@ -15,6 +16,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
 	res.json({ message: 'Sportzify — real-time sports broadcast engine' });
 });
+
+app.use(securityMiddleware());
 
 app.use('/matches', matchRouter);
 
